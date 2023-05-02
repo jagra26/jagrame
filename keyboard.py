@@ -1,30 +1,32 @@
 import pygame
+from phase import Phase
 
 
-def keyboard_callback(keys, x, y, run, vel=10, height=20, width=20):
-    # if left arrow key is pressed
-    if keys[pygame.K_LEFT] and x > 0:
+class Keyboard:
+    def keyboard_callback(keys, run, phase):
+        # if left arrow key is pressed
+        if keys[pygame.K_LEFT] and phase.player.x > 0:
 
-        # decrement in x co-ordinate
-        x -= vel
+            # decrement in x co-ordinate
+            phase.player.update_pos(-1, 0)
 
-    # if left arrow key is pressed
-    if keys[pygame.K_RIGHT] and x < 500-width:
+        # if left arrow key is pressed
+        if keys[pygame.K_RIGHT] and phase.player.x < 500-phase.player.width:
 
-        # increment in x co-ordinate
-        x += vel
+            # increment in x co-ordinate
+            phase.player.update_pos(1, 0)
 
-    # if left arrow key is pressed
-    if keys[pygame.K_UP] and y > 0:
+        # if left arrow key is pressed
+        if keys[pygame.K_UP] and phase.player.y > 0:
 
-        # decrement in y co-ordinate
-        y -= vel
+            # decrement in y co-ordinate
+            phase.player.update_pos(0, -1)
 
-    # if left arrow key is pressed
-    if keys[pygame.K_DOWN] and y < 500-height:
-        # increment in y co-ordinate
-        y += vel
+        # if left arrow key is pressed
+        if keys[pygame.K_DOWN] and phase.player.y < 500-phase.player.height:
+            # increment in y co-ordinate
+            phase.player.update_pos(0, 1)
 
-    if keys[pygame.K_ESCAPE]:
-        run = False
-    return x, y, run
+        if keys[pygame.K_ESCAPE]:
+            run = False
+        return run
