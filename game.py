@@ -3,14 +3,17 @@ import pygame
 from keyboard import Keyboard
 from player import Player
 from phase import Phase
+from files import Files
 # activate the pygame library .
 # initiate pygame and give permission
 # to use pygame's functionality.
 pygame.init()
 
+
 # create the display surface object
 # of specific dimension..e(500, 500).
 win = pygame.display.set_mode((500, 500))
+
 
 
 # set the pygame window name
@@ -19,6 +22,8 @@ pygame.display.set_caption("Moving rectangle")
 
 # paint screen one time
 pygame.display.flip()
+f = Files()
+phases = f.load_from_file("./phases.csv")
 
 # define the RGB value
 # for white, green,
@@ -30,22 +35,8 @@ blue = (0, 0, 128)
 black = (0, 0, 0)
 red = (255, 0, 0)
 
-player = Player(200, 200, red, 20, 20, 0.5)
-phase0 = Phase(player, "images\phase_0.png", (0, 0), (389.0, 89.5))
-phase1 = Phase(player, "images\phase_1.png", (0, 0), (190.0, 322.0))
-phases = [phase0, phase1]
 # Using blit to copy content from one surface to other
 win.blit(phases[0].background, phases[0].pos)
-# object current co-ordinates
-x = 200
-y = 200
-
-# dimensions of the object
-width = 20
-height = 20
-
-# velocity / speed of movement
-vel = 0.5
 
 # Indicates pygame is running
 run = True
@@ -88,7 +79,7 @@ while run:
     pygame.display.update()
     print(phase.player.x)
     print(phase.player.y)
-    if (phase.player.x, phase.player.y) == phase.end_pos:
+    if phase.tolerance_ok():
         actual_phase += 1
         if actual_phase >= len(phases):
             run = False

@@ -9,11 +9,11 @@ class Player:
 
     def update_pos(self, x, y):
         if x > 0:
-            self.x += self.vel
+            self.x += self.vel*x
         elif x < 0:
-            self.x -= self.vel
+            self.x -= self.vel*(-x)
         if y > 0:
-            self.y += self.vel
+            self.y += self.vel*y
         elif y < 0:
-            self.y -= self.vel
+            self.y -= self.vel*(-y)
         return
