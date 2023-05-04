@@ -72,13 +72,17 @@ while run:
     # pygame.display.flip()
 
     # drawing object on screen which is rectangle here
-    pygame.draw.rect(win, phase.player.color, (phase.player.x,
-                     phase.player.y, phase.player.width, phase.player.height))
+    pygame.draw.rect(win, phase.player.color, phase.player.rect)
+    pygame.draw.rect(win, phase.enemy.color, phase.enemy.rect)
 
     # it refreshes the window
     pygame.display.update()
-    print(phase.player.x)
-    print(phase.player.y)
+    
+    # print(f"({phase.player.rect.x}, {phase.player.rect.y})")
+    
+    if phase.detect_collision():
+        run = False
+    
     if phase.tolerance_ok():
         actual_phase += 1
         if actual_phase >= len(phases):
