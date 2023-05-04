@@ -14,7 +14,7 @@ class Phase:
         self.d_x = d_x
         self.d_y = d_y
         self.color = (0, 0, 100)
-        self.enemy = Enemy((144, 123, 50))
+        self.enemies = [Enemy((144, 123, 50)) for i in range(3)]
 
     def tolerance_ok(self):
         if ((self.player.rect.x - self.end_pos[0])**2 <= self.tolerance) and ((self.player.rect.y - self.end_pos[1])**2 <= self.tolerance):
@@ -23,4 +23,4 @@ class Phase:
             return False
 
     def detect_collision(self):
-        return self.enemy.detect_collision(self.player)
+        return any([self.player.rect.colliderect(enemy.rect) for enemy in self.enemies])

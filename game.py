@@ -73,7 +73,9 @@ while run:
 
     # drawing object on screen which is rectangle here
     pygame.draw.rect(win, phase.player.color, phase.player.rect)
-    pygame.draw.rect(win, phase.enemy.color, phase.enemy.rect)
+    
+    for enemy in phase.enemies:
+        pygame.draw.rect(win, enemy.color, enemy.rect)
 
     # it refreshes the window
     pygame.display.update()
