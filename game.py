@@ -14,16 +14,36 @@ pygame.init()
 # of specific dimension..e(500, 500).
 win = pygame.display.set_mode((500, 500))
 
-
-
 # set the pygame window name
 pygame.display.set_caption("Moving rectangle")
-#imp = pygame.image.load("images\phase_0.png").convert()
+# imp = pygame.image.load("images\phase_0.png").convert()
 
 # paint screen one time
 pygame.display.flip()
 f = Files()
 phases = f.load_from_file("./phases.csv")
+
+# define a variable to control the score text
+font = pygame.font.Font(None, 36)
+
+# define a variable to control the instruction text
+font_instruction = pygame.font.Font(None, 32)
+
+# Set the starting score
+score = 0
+
+instructions = ['Welcome to the moving rectangle game!',
+                'Use the arrow keys to move your character.',
+                'Complete the shape in the background to win!',
+                'Avoid the enemies or you will lose.',
+                'Press SPACE to continue.']
+
+# Render the instructions text as a list of surfaces
+instruction_surfaces = []
+
+for text in instructions:
+    instruction_surfaces.append(font_instruction.render(
+        text, True, (136, 206, 250)))
 
 # define the RGB value
 # for white, green,
@@ -40,6 +60,8 @@ win.blit(phases[0].background, phases[0].pos)
 
 # Indicates pygame is running
 run = True
+started = False
+
 actual_phase = 0
 # infinite loop
 while run:
@@ -60,8 +82,8 @@ while run:
             run = False
     # stores keys pressed
     keys = pygame.key.get_pressed()
-    run = Keyboard.keyboard_callback(
-        keys, run, phase)
+    run, started = Keyboard.keyboard_callback(
+        keys, run, started, phase)
 
     # completely fill the surface object
     # with black colour
@@ -73,19 +95,34 @@ while run:
 
     # drawing object on screen which is rectangle here
     pygame.draw.rect(win, phase.player.color, phase.player.rect)
-    
+
     for enemy in phase.enemies:
         pygame.draw.rect(win, enemy.color, enemy.rect)
 
+    if not started:
+        # Fill the screen with black
+        win.fill(black)
+        
+        # Set the y-coordinate for the top of the first instruction
+        instruction_y = 150
+
+        # Draw the instructions text on the screen
+        for surface in instruction_surfaces:
+            win.blit(surface, (10, instruction_y))
+            instruction_y += 24 + 15
+
+    # add the score to the screen
+    score_text = font.render('Score: {}'.format(score), True, (255, 255, 255))
+    win.blit(score_text, (10, 10))
+
     # it refreshes the window
     pygame.display.update()
-    
-    # print(f"({phase.player.rect.x}, {phase.player.rect.y})")
-    
+
     if phase.detect_collision():
-        run = False
-    
+        score = 0
+
     if phase.tolerance_ok():
+        score += 100
         actual_phase += 1
         if actual_phase >= len(phases):
             run = False
