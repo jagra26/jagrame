@@ -5,7 +5,7 @@ import pygame
 
 
 class Phase:
-    def __init__(self, player, background, pos, end_pos, d_x, d_y):
+    def __init__(self, player, background, pos, end_pos, d_x, d_y, enemies_amount):
         self.player = player
         self.background = pygame.image.load(background).convert()
         self.pos = pos
@@ -14,7 +14,7 @@ class Phase:
         self.d_x = d_x
         self.d_y = d_y
         self.color = (0, 0, 100)
-        self.enemies = [Enemy((144, 123, 50)) for i in range(3)]
+        self.enemies = [Enemy((205, 92, 92)) for i in range(enemies_amount)]
 
     def tolerance_ok(self):
         if ((self.player.rect.x - self.end_pos[0])**2 <= self.tolerance) and ((self.player.rect.y - self.end_pos[1])**2 <= self.tolerance):

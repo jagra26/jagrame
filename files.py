@@ -11,6 +11,6 @@ class Files:
             player = Player(phases_df["x"][ind], phases_df["y"][ind], eval(phases_df["color"][ind]), 
                             phases_df["height"][ind], phases_df["width"][ind], phases_df["vel"][ind])
             phase = Phase(player, phases_df["background"][ind], eval(phases_df["pos"][ind]), 
-                          eval(phases_df["end_pos"][ind]), phases_df["d_x"][ind], phases_df["d_y"][ind])
+                          eval(phases_df["end_pos"][ind]), phases_df["d_x"][ind], phases_df["d_y"][ind], phases_df["enemies_amount"][ind])
             phases.append(phase)
         return phases
